@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradientcolor"
-    android:gravity="center"
+    android:gravity="bottom"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".MainActivity">
@@ -15,8 +15,18 @@
         android:id="@+id/cardBackground"
         android:layout_width="match_parent"
         android:layout_height="630dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Choose Sign In Method"
+            android:textColor="@color/WhiteShade"
+            android:textSize="24sp" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -38,7 +48,8 @@
                     android:background="@drawable/button_layout"
                     android:drawableLeft="@drawable/google"
                     android:padding="10dp"
-                    android:text="Continue with Google" />
+                    android:text="Continue with Google"
+                    android:textAlignment="center" />
 
                 <Button
                     android:id="@+id/button2"
@@ -48,7 +59,8 @@
                     android:background="@drawable/button_layout"
                     android:drawableLeft="@drawable/email"
                     android:padding="10dp"
-                    android:text="Continue with Email" />
+                    android:text="Continue with Email"
+                    android:textAlignment="center" />
 
                 <Button
                     android:id="@+id/button3"
@@ -58,18 +70,28 @@
                     android:background="@drawable/button_layout"
                     android:drawableLeft="@drawable/phone"
                     android:padding="10dp"
-                    android:text="Continue with Mobile" />
+                    android:text="Continue with Mobile"
+                    android:textAlignment="center" />
             </LinearLayout>
             />
         </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button7"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:text="Create Account"
-        android:textColor="@color/WhiteShade" />
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="Create Account"
+            android:textAllCaps="false"
+            android:textColor="@color/WhiteShade"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </LinearLayout>

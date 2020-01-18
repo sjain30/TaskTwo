@@ -7,5 +7,6 @@
     <color name="Secondary">#149911</color>
     <color name="WhiteShade">#F3EFF5</color>
     <color name="Accent">#52ad9c</color>
+    <color name="Pressed">#B4BEB4</color>
 
 </resources>
