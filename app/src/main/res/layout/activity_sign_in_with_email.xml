@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradientcolor"
-    android:gravity="bottom"
     android:orientation="vertical"
-    tools:context=".SignInWithEmail">
+    tools:context=".SignInWithEmail"
+    android:background="@drawable/gradientcolor"
+    android:gravity="bottom">
 
     <LinearLayout
         android:id="@+id/layoutOne"
@@ -33,11 +33,10 @@
             android:textStyle="bold" />
 
         <androidx.cardview.widget.CardView
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:background="@drawable/gradientcolor"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="20dp">
+            app:cardBackgroundColor="@android:color/transparent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,26 +46,38 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <EditText
-                    android:id="@+id/editText"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:drawableStart="@drawable/email"
-                    android:ems="10"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
-                    android:padding="10dp" />
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/editText2"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="sans-serif"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress"
+                        android:textAlignment="center"
+                        android:textColor="#050505" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/key"
-                    android:ems="10"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    android:padding="10dp" />
+                    android:layout_marginTop="20dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="sans-serif"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:textAlignment="center"
+                        android:textColor="#050505" />
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -75,8 +86,11 @@
             android:id="@+id/button9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:background="@drawable/buttonlayout2"
-            android:text="Sign In" />
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/sign_in"
+            android:textColor="@color/Primary" />
 
     </LinearLayout>
 
@@ -84,7 +98,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
 
         <Button
             android:id="@+id/button5"
@@ -93,7 +109,8 @@
             android:layout_alignParentStart="true"
             android:layout_gravity="start"
             android:background="@android:color/transparent"
-            android:text="Create Account"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/create_account"
             android:textColor="@color/WhiteShade" />
 
         <Button
@@ -103,7 +120,8 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:background="@android:color/transparent"
-            android:text="Forgot Password"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/forgot_password"
             android:textColor="@color/WhiteShade" />
     </RelativeLayout>
 </LinearLayout>
