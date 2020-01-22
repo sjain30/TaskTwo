@@ -71,9 +71,28 @@ import com.google.firebase.auth.FirebaseAuth;
      public void signOut() {
          FirebaseAuth.getInstance().signOut();
          SaveSharedPreference.clearUserName(getApplication());
+         signOutGoogle();
          startActivity(new Intent(HomeActivity.this,MainActivity.class));
          finish();
      }
+   private void signOutGoogle() {
+       mgoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        startActivity(new Intent(MainActivity.this, beforeLogin.class));
+                        finish();
+                    }
+                });
+    }
+  @Override
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mgoogleSignInClient = GoogleSignIn.getClient(this,gso);
+        super.onStart();
+    }
 
      private void setViewPager() {
          adapter=new PageAdapter(layouts,this);
