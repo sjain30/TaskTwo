@@ -89,12 +89,12 @@ public class MainActivity extends AppCompatActivity {
 
         googleSignIn = findViewById(R.id.googleButton);
 
-//        googleSignIn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                signIn();
-//            }
-//        });
+        googleSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
 
     }
 
@@ -111,10 +111,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             finish();
         }
-        if (GoogleSignIn.getLastSignedInAccount(this)!=null){
-            startActivity(new Intent(this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            finish();
-        }
+//        if (GoogleSignIn.getLastSignedInAccount(this)!=null){
+//            startActivity(new Intent(this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+//            finish();
+//        }
         if (mAuth.getCurrentUser()!=null){
             startActivity(new Intent(this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             finish();

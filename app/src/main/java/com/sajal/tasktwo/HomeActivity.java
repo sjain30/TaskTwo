@@ -13,12 +13,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthCredential;
 
  public class HomeActivity extends AppCompatActivity {
 
-    private FirebaseAuth.AuthStateListener authStateListener;
+     private FirebaseAuth.AuthStateListener authStateListener;
      private GoogleSignInClient mGoogleSignInClient;
      private ViewPager viewPager;
      private PageAdapter adapter;
@@ -26,15 +33,15 @@ import com.google.firebase.auth.FirebaseAuth;
      private TextView[] dots;
      private RecyclerView recyclerView;
      private RecyclerView.Adapter recyclerAdapter;
-     private int[] layouts={R.layout.slider1, R.layout.slider2, R.layout.slider3};
+     private int[] layouts = {R.layout.slider1, R.layout.slider2, R.layout.slider3};
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_home);
 
-        Toolbar toolbar = findViewById(R.id.toolBar);
-        setSupportActionBar(toolbar);
+         Toolbar toolbar = findViewById(R.id.toolBar);
+         setSupportActionBar(toolbar);
 
 //        if (Build.VERSION.SDK_INT>=19) {
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -44,58 +51,61 @@ import com.google.firebase.auth.FirebaseAuth;
 //        }
 
 
-        authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser()==null){
-                    startActivity(new Intent(HomeActivity.this,MainActivity.class));
-                    finish();
-                }
-            }
-        };
-        dotsLayout = findViewById(R.id.dotsLayout);
-        viewPager = findViewById(R.id.viewPager);
-        adapter=new PageAdapter(layouts,this);
-        viewPager.setAdapter(adapter);
-        setViewPager();
-        createDots(0);
+         authStateListener = new FirebaseAuth.AuthStateListener() {
+             @Override
+             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                 if (firebaseAuth.getCurrentUser() == null) {
+                     startActivity(new Intent(HomeActivity.this, MainActivity.class));
+                     finish();
+                 }
+             }
+         };
+         dotsLayout = findViewById(R.id.dotsLayout);
+         viewPager = findViewById(R.id.viewPager);
+         adapter = new PageAdapter(layouts, this);
+         viewPager.setAdapter(adapter);
+         setViewPager();
+         createDots(0);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView =findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerAdapter= new MyAdapter(this);
-        recyclerView.setAdapter(recyclerAdapter);
-    }
+         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+         recyclerView = findViewById(R.id.recyclerView);
+         recyclerView.setHasFixedSize(true);
+         recyclerView.setLayoutManager(layoutManager);
+         recyclerAdapter = new MyAdapter(this);
+         recyclerView.setAdapter(recyclerAdapter);
+     }
 
      public void signOut() {
          FirebaseAuth.getInstance().signOut();
          SaveSharedPreference.clearUserName(getApplication());
-         signOutGoogle();
-         startActivity(new Intent(HomeActivity.this,MainActivity.class));
+         if (GoogleSignIn.getLastSignedInAccount(HomeActivity.this)!=null)
+            signOutGoogle();
+         startActivity(new Intent(HomeActivity.this, MainActivity.class));
          finish();
      }
-   private void signOutGoogle() {
-       mgoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        startActivity(new Intent(MainActivity.this, beforeLogin.class));
-                        finish();
-                    }
-                });
-    }
-  @Override
-    protected void onStart() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mgoogleSignInClient = GoogleSignIn.getClient(this,gso);
-        super.onStart();
-    }
+
+     private void signOutGoogle() {
+         mGoogleSignInClient.signOut()
+                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                     @Override
+                     public void onComplete(@NonNull Task<Void> task) {
+                         startActivity(new Intent(HomeActivity.this, MainActivity.class));
+                         finish();
+                     }
+                 });
+     }
+
+     @Override
+     protected void onStart() {
+         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                 .requestEmail()
+                 .build();
+         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+         super.onStart();
+     }
 
      private void setViewPager() {
-         adapter=new PageAdapter(layouts,this);
+         adapter = new PageAdapter(layouts, this);
          viewPager.setAdapter(adapter);
          viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
              @Override
@@ -142,14 +152,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
      @Override
      public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-         switch (item.getItemId())
-         {
-             case R.id.action_logout :
+         switch (item.getItemId()) {
+             case R.id.action_logout:
                  signOut();
                  return true;
 
-             case R.id.my_orders :
-                 startActivity(new Intent(this,MyOrdersActivity.class));
+             case R.id.my_orders:
+                 startActivity(new Intent(this, MyOrdersActivity.class));
                  return true;
 
              default:
@@ -157,26 +166,19 @@ import com.google.firebase.auth.FirebaseAuth;
          }
      }
 
-     private void  createDots(int position){
+     private void createDots(int position) {
          dots = new TextView[layouts.length];
          dotsLayout.removeAllViews();
-         for (int i=0;i<layouts.length;i++){
-             dots[i]=new TextView(this);
+         for (int i = 0; i < layouts.length; i++) {
+             dots[i] = new TextView(this);
              dots[i].setText(Html.fromHtml("&#8226"));
              dots[i].setTextSize(35);
 
-             if (i==position){
+             if (i == position) {
                  dots[i].setTextColor(getResources().getColor(R.color.colorAccent));
-             }
-             else
+             } else
                  dots[i].setTextColor(getResources().getColor(R.color.colorPrimaryDark));
              dotsLayout.addView(dots[i]);
          }
      }
-
-     /*@Override
-     protected void onStart() {
-         super.onStart();
-         mAuth.addAuthStateListener(authStateListener);
-     }*/
  }
